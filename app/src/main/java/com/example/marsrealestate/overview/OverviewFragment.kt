@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.marsrealestate.R
+import com.example.marsrealestate.databinding.GridViewItemBinding
 import com.example.marsrealestate.databinding.OverviewFragmentBinding
 
 class OverviewFragment : Fragment() {
@@ -13,13 +14,12 @@ class OverviewFragment : Fragment() {
         ViewModelProvider(this).get(OverviewViewModel::class.java)
     }
 
-    private lateinit var binding: OverviewFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = OverviewFragmentBinding.inflate(layoutInflater)
+        val binding = GridViewItemBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
 
