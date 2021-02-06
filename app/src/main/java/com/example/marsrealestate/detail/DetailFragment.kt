@@ -7,15 +7,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.marsrealestate.R
+import com.example.marsrealestate.databinding.DetailFragmentBinding
 
 class DetailFragment : Fragment() {
+
+    private lateinit var binding: DetailFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        binding = DetailFragmentBinding.inflate(inflater)
+
+
         @Suppress("UNUSED_VARIABLE")
         val application = requireNotNull(activity).application
-        return inflater.inflate(R.layout.detail_fragment, container, false)
+
+        binding.lifecycleOwner = this
+
+        return binding.root
     }
 
 }
