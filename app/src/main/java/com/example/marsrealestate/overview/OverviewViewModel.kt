@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.marsrealestate.network.MarsApi
+import com.example.marsrealestate.network.MarsApiFilter
 import com.example.marsrealestate.network.MarsProperty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,16 +33,16 @@ class OverviewViewModel : ViewModel() {
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
-        getMarsRealEstateProperties()
+        getMarsRealEstateProperties(MarsApiFilter.SHOW_ALL)
     }
 
-    private fun getMarsRealEstateProperties() {
+    private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
 
         coroutineScope.launch {
-            var getPropertiesDeferred = MarsApi.retrofitService.getProperties()
+            val getPropertiesDeferred = MarsApi.retrofitService.getProperties(filter.value)
             try {
                 _status.value = MarsApiStatus.LOADING
-                var listResult = getPropertiesDeferred.await()
+                val listResult = getPropertiesDeferred.await()
                 _status.value = MarsApiStatus.DONE
                 if (listResult.isNotEmpty()) _properties.value = listResult
             } catch (e: Exception) {
@@ -62,5 +63,9 @@ class OverviewViewModel : ViewModel() {
 
     fun displayPropertiesComplete() {
         _navigateToSelectedProperty.value = null
+    }
+
+    fun updateFilter(filter: MarsApiFilter) {
+        getMarsRealEstateProperties(filter)
     }
 }
